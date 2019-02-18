@@ -1,0 +1,5 @@
+---
+# Postgresql-pgdg95 variables
+postgres_db_name: myapp
+postgres_db_user: myappuser
+postgres_db_user_password: secret

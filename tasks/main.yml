@@ -1,0 +1,30 @@
+---
+- name: install libselinux-python
+  yum:
+    name: libselinux-python
+    state: present
+  become: yes
+  when: ansible_distribution == 'CentOS' and ansible_distribution_version is version_compare('7.0', '<')
+
+- import_tasks: pgdg95.yml
+
+- import_role: 
+    name: geerlingguy.postgresql
+  vars:
+    postgresql_databases:
+      - name: '{{ postgres_db_name }}'
+    postgresql_users:
+      - name: '{{ postgres_db_user }}'
+        password: '{{ postgres_db_user_password }}'
+    postgresql_enablerepo: pgdg95
+    postgresql_version: 9.5
+    postgresql_data_dir: /var/lib/pgsql/9.5/data
+    postgresql_bin_path: /usr/pgsql-9.5/bin
+    postgresql_config_path: /var/lib/pgsql/9.5/data
+    postgresql_daemon: postgresql-9.5
+    postgresql_packages:
+    - postgresql95
+    - postgresql95-server
+    - postgresql95-libs
+    - postgresql95-contrib
+    - postgresql95-devel
